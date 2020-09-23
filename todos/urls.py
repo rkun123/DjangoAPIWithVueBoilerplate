@@ -15,8 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from .views import ListTodos
+from .views import ListTodos, Todos
 
 urlpatterns = [
-    path('', ListTodos.as_view())
+    path('', ListTodos.as_view()),
+    path('/<int:todo_id>', Todos.as_view())
 ]

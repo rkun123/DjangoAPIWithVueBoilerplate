@@ -1,14 +1,20 @@
 <template>
   <div class="hello">
-    <div class="todo_container" v-for="todo in todos" :key="todo.name">
+    <div class="todo_container" v-for="todo in todos" :key="todo.id">
       <h2>{{ todo.name }}</h2>
       <p>{{ todo.description }}</p>
+      <button v-on:click="deleteTodos(todo.id)">Delete</button>
     </div>
+    <TodoEditor @updated="update" />
   </div>
 </template>
 
 <script>
+import TodoEditor from './TodoEditor'
 export default {
+  components: {
+    TodoEditor
+  },
   name: 'Todo',
   data: () => ({
     todos: [],
@@ -18,19 +24,33 @@ export default {
     }
   }),
   async created() {
-    const r = await fetch('/api/v1/todos')
-
-    if(r.status === 200) {
-      const rawJson = await r.json()
-      console.log(rawJson)
-      this.todos = rawJson.payload
-    }else{
-      alert("Errored")
-    }
-
+    this.update()
   },
   props: {
     msg: String
+  },
+  methods: {
+    async update() {
+      const r = await fetch('/api/v1/todos')
+
+      if(r.status === 200) {
+        const rawJson = await r.json()
+        console.log(rawJson)
+        this.todos = rawJson.payload
+      }else{
+        alert("Errored")
+      }
+    },
+    async deleteTodos(id) {
+      const r = await fetch(`/api/v1/todos/${id}`, {
+        method: 'DELETE'
+      })
+      if(r.status === 200) {
+        const idx = this.todos.findIndex((todo) => (todo.id === id))
+        this.todos.splice(idx, idx)
+      }
+      this.update()
+    }
   }
 }
 </script>

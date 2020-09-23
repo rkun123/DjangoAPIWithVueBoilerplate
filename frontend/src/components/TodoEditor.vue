@@ -8,28 +8,13 @@
 
 <script>
 export default {
-  name: 'TodoModel',
+  name: 'TodoEditor',
   data: () => ({
     todo: {
       name: '',
       description: ''
     }
   }),
-  async created() {
-    const r = await fetch('/api/v1/todos')
-
-    if(r.status === 200) {
-      const rawJson = await r.json()
-      console.log(rawJson)
-      this.todos = rawJson.payload
-    }else{
-      alert("Errored")
-    }
-
-  },
-  props: {
-    msg: String
-  },
   methods: {
     async post() {
       console.log(JSON.stringify(this.todo))
@@ -37,6 +22,7 @@ export default {
          method: "POST",
          body: JSON.stringify(this.todo)
        })
+       this.$emit('updated')
 
     }
   }
