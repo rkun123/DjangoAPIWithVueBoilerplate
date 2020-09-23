@@ -1,10 +1,11 @@
 <template>
-  <div class="hello">
+  <div class="todo">
     <div class="todo_container" v-for="todo in todos" :key="todo.id">
       <h2>{{ todo.name }}</h2>
       <p>{{ todo.description }}</p>
       <button v-on:click="deleteTodos(todo.id)">Delete</button>
     </div>
+    <hr />
     <TodoEditor @updated="update" />
   </div>
 </template>
@@ -57,19 +58,8 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
+.todo {
+  width: 100%;
 }
 .todo_container {
   /*border: solid 2px black;*/

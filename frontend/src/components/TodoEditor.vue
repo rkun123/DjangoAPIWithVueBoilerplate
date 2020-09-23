@@ -1,8 +1,14 @@
 <template>
-  <div class="hello">
-    name: <input type="text" v-model="todo.name"><br />
-    description: <textarea v-model="todo.description"></textarea>
-    <button v-on:click="post">追加</button>
+  <div class="todoEditor">
+    <div class="section">
+      <div class="label">NAME</div>
+      <input type="text" v-model="todo.name">
+    </div>
+    <div class="section">
+      <div class="label">DESCRIPTION</div>
+      <textarea v-model="todo.description"></textarea><br />
+      <button class="submit" v-on:click="post">追加</button>
+    </div>
   </div>
 </template>
 
@@ -23,7 +29,8 @@ export default {
          body: JSON.stringify(this.todo)
        })
        this.$emit('updated')
-
+       this.todo.name = ''
+       this.todo.description = ''
     }
   }
 }
@@ -31,30 +38,38 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
-.todo_container {
-  /*border: solid 2px black;*/
+.todoEditor {
   background-color: silver;
-  margin: 1rem 0;
-  padding: 1rem;
+  width: 100%;
 }
-.todo_container h2 {
-  display: inline-block;
-  padding: 0 3rem;
-  border-bottom: solid 1px black;
+.section {
+  padding: 1rem 0;
+  margin: 1rem 0;
+}
+.section .label {
+  margin-bottom: 1rem;
+}
+.section input[type="text"] {
+  width: 80%;
+  font-size: 1.5rem;
+  padding: 0.2rem;
+  border: none;
+}
+.section textarea {
+  width: 80%;
+  padding: 0.2rem;
+  height: 5rem;
+  border: none;
+}
+.section .submit {
+  height: 2rem;
+  padding: 0 2rem;
+  border-radius: none;
+  border: none;
+  margin: 2rem 0;
+}
+.label {
+  font-size: 1.2rem;
 }
 </style>
 
